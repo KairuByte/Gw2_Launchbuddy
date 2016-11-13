@@ -45,9 +45,9 @@ namespace Gw2_Launchbuddy
         public List<Argument> arguments { get; set; }
         public string Print(int? i = null)
         {
-            AddTemp("-shareArchive");
             try
             {
+                AddTemp("-shareArchive");
                 if (i == null)
                     return String.Join(" ", arguments.Where(a => a.Active == true).Select(a => a.Print));
                 else
@@ -100,9 +100,9 @@ namespace Gw2_Launchbuddy
                 arguments.Add(new Argument(flag, null, true));
             var arg = arguments.Where(a => a.Flag == flag).FirstOrDefault();
 
+            if(arg.Active != true) arg.Temporary = temp ?? false;
             arg.Active = true;
             arg.Option = option;
-            arg.Temporary = temp ?? false;
         }
         public void AddTemp(string flag, string option = null)
         {

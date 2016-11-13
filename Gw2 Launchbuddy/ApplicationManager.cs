@@ -23,16 +23,17 @@ namespace Gw2_Launchbuddy
                 return;
                 //HandleManager.ClearMutex(exename, "AN-Mutex-Window-Guild Wars 2", ref nomutexpros);
             }
-
+            
             //Launching the application with arguments
             if (Globals.selected_accs.Count > 0)
             {
                 for (int i = 0; i <= Globals.selected_accs.Count - 1; i++) launchgw2(i);
-            } else
+            }
+            else
             {
                 launchgw2();
             }
-            
+
 
             //Launching AddOns
             try
@@ -54,6 +55,9 @@ namespace Gw2_Launchbuddy
         }
         static bool RegClients(string created = null)
         {
+#if DEBUG
+            if (created != null) System.Diagnostics.Debug.WriteLine("Process logged to Registry: " + created);
+#endif
             var key = Globals.LBRegKey;
             List<string> listClients = new List<string>();
             try
@@ -87,6 +91,8 @@ namespace Gw2_Launchbuddy
                 gw2proinfo.WorkingDirectory = Globals.exepath;
                 Process gw2pro = new Process { StartInfo = gw2proinfo };
 
+                HandleManager.ClearMutex(Globals.exename, "AN-Mutex-Window-Guild Wars 2", ref nomutexpros);
+
                 try
                 {
                     gw2pro.Start();
@@ -94,18 +100,13 @@ namespace Gw2_Launchbuddy
                 catch (Exception err)
                 {
                     System.Windows.MessageBox.Show("Could not launch Gw2. Invalid path?\n" + err.Message);
+                    return;
                 }
-                try
+                finally
                 {
-                    HandleManager.ClearMutex(Globals.exename, "AN-Mutex-Window-Guild Wars 2", ref nomutexpros);
-                    gw2pro.WaitForInputIdle(10000);
-                    //Thread.Sleep(1000);
                     //Register the new client to prevent problems.
+                    gw2pro.WaitForInputIdle(10000);
                     updateRegClients(procMD5(gw2pro));
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show(err.Message);
                 }
 
                 if (Properties.Settings.Default.use_reshade)
@@ -126,6 +127,7 @@ namespace Gw2_Launchbuddy
             catch (Exception err)
             {
                 MessageBox.Show(err.Message);
+                CrashReporter.ReportCrashToSingle(err, "KairuByte");
             }
         }
 
@@ -145,9 +147,9 @@ namespace Gw2_Launchbuddy
 
         public static string procMD5(Process proc)
         {
-            #if DEBUG
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Start: " + proc.StartTime + " ID: " + proc.Id + " MD5: " + CalculateMD5(proc.StartTime.ToString() + proc.Id.ToString()));
-            #endif
+#endif
             return CalculateMD5(proc.StartTime.ToString() + proc.Id.ToString());
         }
     }
