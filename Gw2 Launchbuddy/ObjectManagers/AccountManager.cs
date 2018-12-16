@@ -112,6 +112,7 @@ namespace Gw2_Launchbuddy.ObjectManagers
                 {
                     MessageBox.Show(e.Message);
                 }
+                throw new Exception("Your exception here!");
             }
 
             public static void SaveAccountInfo()
