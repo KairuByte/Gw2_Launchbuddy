@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using Gw2_Launchbuddy.ObjectManagers;
 using System.Net;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Gw2_Launchbuddy
 {
@@ -22,6 +25,7 @@ namespace Gw2_Launchbuddy
         [STAThread]
         public static void Main(string[] args)
         {
+            AppCenter.Start("7de90c4f - 1bcd - 4ce1 - 80d1 - f3216af8bc2f", typeof(Analytics), typeof(Crashes));
             AttachConsole(-1);
             var result = Parser.Default.ParseArguments<Options>(args).WithParsed(options => RunParsed(options));
         }
