@@ -39,7 +39,7 @@
       <Value Profile="(Default)">90</Value>
     </Setting>
     <Setting Name="cinema_backgroundcolor" Type="System.Windows.Media.Color" Scope="User">
-      <Value Profile="(Default)">#FFE6E6E6</Value>
+      <Value Profile="(Default)">#FF000000</Value>
     </Setting>
     <Setting Name="cinema_loginwindowpath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -64,6 +64,24 @@
     </Setting>
     <Setting Name="useinstancegui" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ui_selectedtab" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="useloadingui" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="mainwin_pos_x" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="mainwin_pos_y" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="mainwin_size_x" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="mainwin_size_y" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

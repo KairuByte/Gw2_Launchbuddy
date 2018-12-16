@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Windows;
 using System.IO;
+using System.Linq;
+using System.Net;
 
 namespace Update_Helper
 {
-    class Program
+    internal class Program
     {
         /* Args:
          *       0: pid of old LB
@@ -20,10 +14,13 @@ namespace Update_Helper
          *       2: URL to download
          *       3: old LB name
          */
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                 //Find and kill old LB
                 Process oldLB = null;
                 if (Process.GetProcesses().Any(x => x.Id == Int32.Parse(args[0])))
@@ -50,19 +47,22 @@ namespace Update_Helper
                 //Rename new LB to old LB name
                 File.Move(tempdest, dest);
 
-                //Start new LB
-                Process newLB = new Process { StartInfo = new ProcessStartInfo(dest) };
-                newLB.Start();
+                //Cleanup
+                File.Delete(bakdest);
+
+                //Open Directory
+                new Process { StartInfo = new ProcessStartInfo(dir) }.Start();
             }
             catch { }
 
             //Kill and delete updater (Self)
             ProcessStartInfo Info = new ProcessStartInfo();
-            Info.Arguments = "/C ping 1.1.1.1 -n 1 -w 3000 > Nul & Del \"" + new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath + "\"";
+            Info.Arguments = "/C timeout /T 3 & Del \"" + new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath + "\"";
             Info.WindowStyle = ProcessWindowStyle.Hidden;
             Info.CreateNoWindow = true;
             Info.FileName = "cmd.exe";
             Process.Start(Info);
+            
         }
     }
 }
