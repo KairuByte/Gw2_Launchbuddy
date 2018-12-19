@@ -1,7 +1,7 @@
 ﻿param(
-    [string]$VirusTotalApiKey,
-    [string]$FileUri,
-    [string]$FilePath
+    [String]$VirusTotalApiKey,
+    [String]$FileUri,
+    [String]$FilePath
 )
 
 function Set-VTApiKey {
@@ -214,6 +214,11 @@ function Invoke-VTRescan {
     }    
 }
 
+function Set-VstsVariable {
+    param([String]$var, [String]$value, [Bool]$secret = $false)
+    Write-Output ("##vso[task.setvariable variable=$var;isSecret=$secret;isOutput=true;]$value")
+}
+
 If($FilePath) {
     $FileInfo = ([System.IO.FileInfo]$FilePath)
 
@@ -223,11 +228,11 @@ Else {
     $output = Invoke-VTScan -VTApiKey $VirusTotalApiKey -file $FileUri
 }
 
-Write-Output ("##vso[task.setvariable variable=VirusTotal.scan_id;isSecret=false;isOutput=true;]" + $output.scan_id)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.sha1;isSecret=false;isOutput=true;]" + $output.sha1)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.resource;isSecret=false;isOutput=true;]" + $output.resource)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.response_code;isSecret=false;isOutput=true;]" + $output.response_code)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.sha256;isSecret=false;isOutput=true;]" + $output.sha256)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.permalink;isSecret=false;isOutput=true;]" + $output.permalink)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.md5;isSecret=false;isOutput=true;]" + $output.md5)
-Write-Output ("##vso[task.setvariable variable=VirusTotal.verbose_msg;isSecret=false;isOutput=true;]" + $output.verbose_msg)
+Set-VstsVariable("scan_id", $output.scan_id)
+Set-VstsVariable("sha1", $output.sha1)
+Set-VstsVariable("resource", $output.resource)
+Set-VstsVariable("response_code", $output.response_code)
+Set-VstsVariable("sha256", $output.sha256)
+Set-VstsVariable("permalink", $output.permalink)
+Set-VstsVariable("md5", $output.md5)
+Set-VstsVariable("verbose_msg", $output.verbose_msg)
