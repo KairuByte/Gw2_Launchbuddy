@@ -215,8 +215,8 @@ function Invoke-VTRescan {
 }
 
 function Set-VstsVariable {
-    param([String]$var, [String]$value, [Bool]$secret = $false)
-    Write-Output ("##vso[task.setvariable variable=$var;isSecret=$secret;]$value")
+    param([String]$var, [String]$value)
+    Write-Output ("##vso[task.setvariable variable=$var;]$value")
 }
 
 If($FilePath) {
