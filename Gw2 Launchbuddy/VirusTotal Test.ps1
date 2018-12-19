@@ -4,8 +4,6 @@
     [string]$FilePath
 )
 
-Import-Module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
-
 function Set-VTApiKey {
     [CmdletBinding()]
     Param([Parameter(Mandatory=$true)][ValidateNotNull()][String] $VTApiKey,
@@ -225,11 +223,11 @@ Else {
     $output = Invoke-VTScan -VTApiKey $VirusTotalApiKey -file $FileUri
 }
 
-Set-TaskVariable "VirusTotal.scan_id" $output.scan_id
-Set-TaskVariable "VirusTotal.sha1" $output.sha1
-Set-TaskVariable "VirusTotal.resource" $output.resource
-Set-TaskVariable "VirusTotal.response_code" $output.response_code
-Set-TaskVariable "VirusTotal.sha256" $output.sha256
-Set-TaskVariable "VirusTotal.permalink" $output.permalink
-Set-TaskVariable "VirusTotal.md5" $output.md5
-Set-TaskVariable "VirusTotal.verbose_msg" $output.verbose_msg
+Write-Output ("##vso[task.setvariable variable=VirusTotal.scan_id;isSecret=false;isOutput=true;]" + $output.scan_id)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.sha1;isSecret=false;isOutput=true;]" + $output.sha1)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.resource;isSecret=false;isOutput=true;]" + $output.resource)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.response_code;isSecret=false;isOutput=true;]" + $output.response_code)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.sha256;isSecret=false;isOutput=true;]" + $output.sha256)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.permalink;isSecret=false;isOutput=true;]" + $output.permalink)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.md5;isSecret=false;isOutput=true;]" + $output.md5)
+Write-Output ("##vso[task.setvariable variable=VirusTotal.verbose_msg;isSecret=false;isOutput=true;]" + $output.verbose_msg)
