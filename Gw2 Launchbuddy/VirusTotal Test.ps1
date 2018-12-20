@@ -217,7 +217,6 @@ function Invoke-VTRescan {
 function Set-VstsVariable {
     param([String]$variablename, [String]$variablevalue, [Bool]$secret = $false)
     Write-Output ("##vso[task.setvariable variable=$variablename;isSecret=$secret;isOutput=true;] $variablevalue")
-    Write-Output ("@@vso[task.setvariable variable=$variablename;isSecret=$secret;isOutput=true;] $variablevalue")
 }
 
 If($FilePath) {
@@ -229,11 +228,11 @@ Else {
     $output = Invoke-VTScan -VTApiKey $VirusTotalApiKey -file $FileUri
 }
 
-Set-VstsVariable("scan_id", $output.scan_id)
-Set-VstsVariable("sha1", $output.sha1)
-Set-VstsVariable("resource", $output.resource)
-Set-VstsVariable("response_code", $output.response_code)
-Set-VstsVariable("sha256", $output.sha256)
-Set-VstsVariable("permalink", $output.permalink)
-Set-VstsVariable("md5", $output.md5)
-Set-VstsVariable("verbose_msg", $output.verbose_msg)
+Set-VstsVariable "scan_id" $output.scan_id
+Set-VstsVariable "sha1" $output.sha1
+Set-VstsVariable "resource" $output.resource
+Set-VstsVariable "response_code" $output.response_code
+Set-VstsVariable "sha256" $output.sha256
+Set-VstsVariable "permalink" $output.permalink
+Set-VstsVariable "md5" $output.md5
+Set-VstsVariable "verbose_msg" $output.verbose_msg
